@@ -16,6 +16,8 @@ Adafruit_MotorShield AFMS = Adafruit_MotorShield();
 Adafruit_DCMotor *motorOne = AFMS.getMotor(1);
 // You can also make another motor on port M2
 Adafruit_DCMotor *motorTwo = AFMS.getMotor(2);
+// You can also make another motor on port M3
+Adafruit_DCMotor *motorThree = AFMS.getMotor(3);
 
 void setup() {
   Serial.begin(9600);           // set up Serial library at 9600 bps
@@ -24,55 +26,62 @@ void setup() {
   AFMS.begin();  // create with the default frequency 1.6KHz
   
   // Set the speed to start, from 0 (off) to 255 (max speed)
-  motorOne->setSpeed(200);
+  motorOne->setSpeed(100);
   motorOne->run(FORWARD);
   // turn on motor
   motorOne->run(RELEASE);
 
 
   // Set the speed to start, from 0 (off) to 255 (max speed)
-  motorTwo->setSpeed(255);
-  //motorTwo->run(FORWARD);
-  motorTwo->run(BACKWARD);
+  motorTwo->setSpeed(100);
+  motorTwo->run(FORWARD);
   // turn on motor
   motorTwo->run(RELEASE);
+
+  // Set the speed to start, from 0 (off) to 255 (max speed)
+  motorThree->setSpeed(100);
+  motorThree->run(FORWARD);
+  // turn on motor
+  motorThree->run(RELEASE);
   
 }
 
 void loop() {
 
+  int LENGTH_1;  //STATE 1 motor 1 length
+  int LENGTH_2;  //STATE 1 motor 2 length
 
-  //Drive Motor #1 forward
+  //Random length between 2000 and 50000
+  LENGTH_1 = rand() % 48001 + 2000;
+  Serial.println(LENGTH_1);
+
+  //Drive Motor #1 forward (Clear)
   Serial.println("motorOne-------------------------");
 
-      motorOne->run(FORWARD);
-      motorOne->setSpeed(200);
+      motorOne->run(FORWARD); //clear
+      motorOne->setSpeed(150);
 
-    //  motorTwo->run(BACKWARD);
-    //  motorTwo->setSpeed(70);
+      motorThree->run(FORWARD);
+      motorThree->setSpeed(150);
       
-      delay(2000);
-    //  motorOne->run(RELEASE);
-      motorOne->setSpeed(0);
-
+      delay(LENGTH_1*1.5);
       
-    //  motorTwo->run(RELEASE);
-    //  delay(500);
+      motorOne->run(RELEASE);
+      motorThree->run(RELEASE);
 
+
+  //Drive Motor #2 forward (Black)
   Serial.println("motorTwo-------------------------");   
       motorTwo->run(FORWARD); //black
-      motorTwo->setSpeed(200);
-
-   //   motorOne->run(BACKWARD);
-   //   motorOne->setSpeed(70);
+      motorTwo->setSpeed(150);
+     
+      motorThree->run(FORWARD);
+      motorThree->setSpeed(150);
       
-      delay(2000);
-    //  motorTwo->run(RELEASE);
-      motorOne->setSpeed(0);
-
-      
-    //  motorOne->run(RELEASE);
-    //  delay(500);
+      delay(LENGTH_1);
+    
+      motorTwo->run(RELEASE);
+      motorThree->run(RELEASE);
 
 
 }
